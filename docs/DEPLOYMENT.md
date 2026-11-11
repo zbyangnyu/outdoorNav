@@ -26,15 +26,6 @@ uv pip install --python .venv/bin/python -e framework/robonix/pylib/robonix-api 
 这两个文件不提交。设备串口、IMU 安装方向、磁偏角、天线偏移均须现场核对。
 两个清单目前保留 `quality_confirmed=false`、`yaw_std_deg=null`，航向未确认时不会就绪。
 
-## 切换山猫 Wi-Fi
-
-山猫需要联网（例如拉取依赖、RTK 差分）时，切到现场路由器 `ZTE_B3000D`，再确认当前连接：
-
-```bash
-sudo nmcli connection up ZTE_B3000D
-nmcli connection show --active
-```
-
 ## 构建、启动和停止
 
 每个终端先加载环境。更新源码或配置后构建；启动不再自动重复构建。
