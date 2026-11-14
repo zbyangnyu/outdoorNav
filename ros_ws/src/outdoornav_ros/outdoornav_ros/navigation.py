@@ -27,7 +27,7 @@ from unique_identifier_msgs.msg import UUID
 
 from outdoornav.api import ApiError, serve
 from outdoornav.bundle import is_free, load_bundle, masks
-from outdoornav.routing import RouteGuidance, validate_point
+from outdoornav.routing import RouteGuidance, sidestep_points, validate_point
 from outdoornav.tasks import TaskStore, TERMINAL, ProgressBudget
 from outdoornav.outdoor import OutdoorService
 from .maps import LATCHED, Maps
@@ -647,12 +647,39 @@ class Navigation(Node):
                 return False
         return True
 
+    def stamped(self, point, heading, header):
+        pose = PoseStamped()
+        pose.header = header
+        pose.pose.position.x, pose.pose.position.y = point["x"], point["y"]
+        pose.pose.orientation.z = math.sin(heading / 2)
+        pose.pose.orientation.w = math.cos(heading / 2)
+        return pose
+
+    async def plan_leg(self, start, point, heading, header, task_id):
+        """One NavFn leg on the sensor costmap; [] when no path exists."""
+        request = ComputePathToPose.Goal()
+        request.goal = self.stamped(point, heading, header)
+        request.use_start = True
+        request.start = self.stamped(start, 0.0, header)
+        planner = await self.result(self.path_client.send_goal_async(request), task_id)
+        if not planner.accepted:
+            raise RuntimeError("Planner rejected the goal")
+        try:
+            result = await self.result(planner.get_result_async(), task_id)
+        except Exception:
+            planner.cancel_goal_async()
+            raise
+        if result.status != GoalStatus.STATUS_SUCCEEDED:
+            return []
+        return list(result.result.path.poses)
+
     async def guided_path(self, guidance, window, position, task_id):
         """Join sensor-costmap NavFn legs into one continuous RPP path.
 
         Explicit starts prevent every leg from being planned from the robot.
         Preserve the planner's obstacle detours; do not substitute road lines or
-        write the reference geometry into either costmap.
+        write the reference geometry into either costmap. (The Lynx road-cost
+        filter is a soft preference on all roads, not this task's route.)
         """
         path = Path()
         path.header.frame_id = "map"
@@ -660,32 +687,13 @@ class Navigation(Node):
         start = validate_point(position)
         for offset, index in enumerate(window):
             point = guidance.points[index]
-            request = ComputePathToPose.Goal()
-            request.goal.header = path.header
-            request.goal.pose.position.x = point["x"]
-            request.goal.pose.position.y = point["y"]
             previous = guidance.points[max(0, index - 1)]
             heading = math.atan2(point["y"] - previous["y"], point["x"] - previous["x"])
-            request.goal.pose.orientation.z = math.sin(heading / 2)
-            request.goal.pose.orientation.w = math.cos(heading / 2)
-            request.use_start = True
-            request.start.header = path.header
-            request.start.pose.position.x = start["x"]
-            request.start.pose.position.y = start["y"]
-            request.start.pose.orientation.w = 1.0
-            planner = await self.result(self.path_client.send_goal_async(request), task_id)
-            if not planner.accepted:
-                raise RuntimeError("Planner rejected the goal")
-            try:
-                result = await self.result(planner.get_result_async(), task_id)
-            except Exception:
-                planner.cancel_goal_async()
-                raise
-            leg = result.result.path.poses
+            leg = await self.plan_leg(start, point, heading, path.header, task_id)
             if self.hardware and guidance.final_leg and len(leg) == 1:
                 # A coincident destination still needs a path for final heading alignment.
-                leg = [request.start, *leg]
-            if result.status != GoalStatus.STATUS_SUCCEEDED or len(leg) < 2:
+                leg = [self.stamped(start, 0.0, path.header), *leg]
+            if len(leg) < 2:
                 # A sampled station may itself be occupied. Try the next station
                 # on the SAME straight edge, allowing NavFn to go around it.
                 # Never skip a bend or the window/final goal to obtain a shortcut.
@@ -693,7 +701,22 @@ class Navigation(Node):
                     next_point = guidance.points[window[offset + 1]]
                     if math.hypot(next_point["x"] - start["x"], next_point["y"] - start["y"]) <= 4.1:
                         continue
-                return None
+                # Otherwise (a bend, or a person standing on the next station) try
+                # the same station shifted sideways. The final goal is never moved.
+                if index == len(guidance.points) - 1:
+                    return None
+                limit = getattr(self, "config", {}).get("sidestep_max_m", 1.2)
+                for shifted in sidestep_points(previous, point, limit):
+                    if math.dist((shifted["x"], shifted["y"]), (start["x"], start["y"])) < 0.35:
+                        leg = []  # Already beside the occupied station.
+                        break
+                    leg = await self.plan_leg(start, shifted, heading, path.header, task_id)
+                    if len(leg) >= 2:
+                        break
+                else:
+                    return None
+                if not leg:
+                    continue
             # NavFn tolerance can end a leg near (not exactly on) a via point.
             # Start the next leg at its ACTUAL end to avoid a disconnected join.
             if path.poses:

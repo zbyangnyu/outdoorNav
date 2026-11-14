@@ -182,6 +182,11 @@ def test_generated_costmap_clears_inf_rays_without_increasing_near_blind_zone(tm
     params = yaml.safe_load((tmp_path/'lynx_nav2.yaml').read_text())
     for name in ('global_costmap', 'local_costmap'):
         assert params[name][name]['ros__parameters']['obstacle_layer']['scan']['inf_is_valid'] is True
+    # Road soft cost reaches NavFn detours only; the local map stays sensor-only.
+    global_map = params['global_costmap']['global_costmap']['ros__parameters']
+    assert global_map['filters'] == ['road_preference']
+    assert global_map['road_preference']['filter_info_topic'] == '/navigation/road_cost_info'
+    assert 'filters' not in params['local_costmap']['local_costmap']['ros__parameters']
     from outdoornav.config import load_robot_config
     assert load_robot_config(values['robot_config'])['scan_range_min_m'] == .5
 

@@ -445,9 +445,23 @@ class SensorOnlyNavigationTests(unittest.TestCase):
         requests = [call.args[0] for call in self.node.path_client.send_goal_async.call_args_list]
         self.assertEqual(requests[1].start.pose.position.x, 0)
         self.assertEqual(requests[1].goal.pose.position.x, 4)
+        # An occupied bend is passed beside (left first), never skipped.
         path, _ = self.planned_window([(0, 0), (4, 0), (4, 4)], fail=lambda p: p.x == 4 and p.y == 0)
+        self.assertIsNotNone(path)
+        requests = [call.args[0] for call in self.node.path_client.send_goal_async.call_args_list]
+        targets = [(r.goal.pose.position.x, r.goal.pose.position.y) for r in requests]
+        self.assertEqual(targets[:3], [(2, 0), (4, 0), (4, 0.6)])
+        self.assertEqual(targets[3], (4, 2))
+        self.assertEqual((requests[3].start.pose.position.x, requests[3].start.pose.position.y), (4, 0.6))
+        # Every sideways station blocked too: wait rather than cut the corner.
+        path, _ = self.planned_window([(0, 0), (4, 0), (4, 4)], fail=lambda p: p.x == 4 and p.y < 1.5)
         self.assertIsNone(path)
-        self.assertEqual(self.node.path_client.send_goal_async.call_count, 2)
+        self.assertEqual(self.node.path_client.send_goal_async.call_count, 6)
+
+    def test_occupied_final_goal_is_never_shifted(self):
+        path, _ = self.planned_window([(0, 0), (2, 0)], fail=lambda p: p.x == 2)
+        self.assertIsNone(path)
+        self.assertEqual(self.node.path_client.send_goal_async.call_count, 1)
 
     def test_final_guided_target_is_the_exact_requested_goal(self):
         path, _ = self.planned_window([(0, 0), (2, 0), (2, 0.12)])

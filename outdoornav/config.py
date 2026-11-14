@@ -30,6 +30,10 @@ DEFAULTS = {
     'road_preference_enabled': False,
     'road_offroad_cost': 50,
     'road_preference_resolution_m': 0.5,
+    # 0 disables. Mask value = road soft cost x scale, added to the Nav2 global map.
+    'road_costmap_scale': 0.0,
+    # Lateral shifts tried when a guidance station is occupied; 0 disables.
+    'sidestep_max_m': 1.2,
     'stopped_linear_mps': 0.01,
     'stopped_angular_rps': 0.01,
     'stop_hold_s': 1.0,
@@ -71,7 +75,8 @@ def load_robot_config(path):
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
             raise ValueError(key + ' must be finite')
     for key in DEFAULTS:
-        if key in boolean_defaults or key in ('scan_range_min_m', 'planner_patience_s', 'inflation_padding_m'):
+        if key in boolean_defaults or key in ('scan_range_min_m', 'planner_patience_s', 'inflation_padding_m',
+                                              'road_costmap_scale', 'sidestep_max_m'):
             continue
         if config[key] <= 0:
             raise ValueError(key + ' must be positive')
@@ -85,6 +90,11 @@ def load_robot_config(path):
     if not (type(config['road_offroad_cost']) is int and 1 <= config['road_offroad_cost'] < 100
             and .1 <= config['road_preference_resolution_m'] <= 1.):
         raise ValueError('Road preference requires soft cost 1..99 and resolution 0.1..1 m')
+    # Mask values stay below path_obstructed's 70 and the window's 1.5 m detour allowance.
+    if not (0 <= config['road_costmap_scale'] <= .6 and 0 <= config['sidestep_max_m'] <= 1.2):
+        raise ValueError('road_costmap_scale must be 0..0.6 and sidestep_max_m 0..1.2 m')
+    if config['road_costmap_scale'] and not config['road_preference_enabled']:
+        raise ValueError('road_costmap_scale requires road_preference_enabled')
     config.setdefault('road_keepout_polygons', [])
     if not isinstance(config['road_keepout_polygons'], list):
         raise ValueError('road_keepout_polygons must be a list')

@@ -16,6 +16,8 @@ from rcl_interfaces.srv import SetParametersAtomically
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.qos import qos_profile_sensor_data
 from nav2_msgs.action import NavigateToPose
+from nav2_msgs.msg import CostmapFilterInfo
+from nav_msgs.msg import OccupancyGrid
 
 from outdoornav.api import serve
 from outdoornav.config import load_robot_config
@@ -26,6 +28,7 @@ from outdoornav.places import Places
 from outdoornav.outdoor import OutdoorService
 from outdoornav.tasks import TaskStore, TERMINAL
 from outdoornav.localization import wrap
+from .maps import LATCHED
 from .navigation import Navigation
 
 
@@ -52,9 +55,31 @@ class LynxNavigation(Navigation):
         self.create_subscription(Odometry, '/outdoor/odom', self.on_odom, 10)
         self.create_subscription(LaserScan, '/outdoor/scan', self.on_scan, qos_profile_sensor_data)
         self.create_timer(0.1, self.check_stationary)
+        self.road_cost = None
+        if self.config.get('road_costmap_scale') and self.outdoor.preference:
+            # Soft road preference for Nav2 detours; lynx.launch.py adds the filter.
+            self.road_cost = self.create_publisher(OccupancyGrid, '/navigation/road_cost', LATCHED)
+            info = CostmapFilterInfo()
+            info.header.frame_id = 'map'
+            info.type, info.filter_mask_topic = 0, '/navigation/road_cost'
+            info.base, info.multiplier = 0.0, 1.0
+            self.road_cost_info = self.create_publisher(CostmapFilterInfo, '/navigation/road_cost_info', LATCHED)
+            self.road_cost_info.publish(info)
+            self.road_cost_key = None
+            self.publish_road_cost()
         self.controller_parameters = self.create_client(SetParametersAtomically, "/controller_server/set_parameters_atomically", callback_group=self.group)
         self.http = serve(self, port=self.config.get('http_port', 8765), host='0.0.0.0',
                           web_root=os.environ.get('OUTDOORNAV_WEB_ROOT'))
+
+    def publish_road_cost(self, offroad_cost=None, blocked=()):
+        if getattr(self, 'road_cost', None) is None:
+            return
+        planner = self.outdoor.planner(offroad_cost)
+        key = (planner.offroad_cost, tuple(sorted(blocked)))
+        if key != self.road_cost_key:
+            mask = planner.costmap_mask(blocked, self.config['road_costmap_scale'])
+            self.road_cost.publish(self.maps.message(mask))
+            self.road_cost_key = key
 
     def check_stationary(self):
         now = time.monotonic()
@@ -147,7 +172,8 @@ class LynxNavigation(Navigation):
                 'policy_warnings': field_warnings(config, geo.get('heading') or {}) if 'wit_imu' in config else [],
                 'runtime_policy': {key: config.get(key) for key in (
                     'allow_float_during_fixed_task', 'stopped_linear_mps', 'planner_patience_s',
-                    'controller_patience_s', 'scan_range_min_m', 'inflation_padding_m', 'inflation_cost_scaling')},
+                    'controller_patience_s', 'scan_range_min_m', 'inflation_padding_m', 'inflation_cost_scaling',
+                    'road_costmap_scale', 'sidestep_max_m')},
                 'tf_conflicts': geo.get('tf_conflicts', {}),
                 'command_topic': self.resolve_topic_name('/outdoor/diagnostic_cmd_vel' if self.diagnostic else '/cmd_vel'),
                 'not_ready_reasons': readiness_reasons(health, geo),
@@ -191,6 +217,9 @@ class LynxNavigation(Navigation):
         return 'yaw' not in goal or abs(wrap(position['yaw'] - goal['yaw'])) <= 0.20
 
     async def prepare_route(self, route, task_id):
+        state = self.tasks.snapshot(task_id, include_paths=False)
+        # Detours use the same off-road cost and closures as this task's reference route.
+        self.publish_road_cost(state.get('road_offroad_cost'), state['blocked_road_ids'])
         if not await self.confirm_stop():
             raise RuntimeError('Cannot confirm stationary robot before route execution')
         tolerance = self.tasks.snapshot(task_id)['arrival_tolerance_m']

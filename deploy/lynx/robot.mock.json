@@ -98,5 +98,7 @@
   "road_preference_enabled": true,
   "road_offroad_cost": 50,
   "road_preference_resolution_m": 0.5,
+  "road_costmap_scale": 0.6,
+  "sidestep_max_m": 1.2,
   "road_keepout_polygons": []
 }

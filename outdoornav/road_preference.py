@@ -73,6 +73,26 @@ class RoadPreference:
             self._cache[key] = self._raster(resolution, set(blocked), for_planning)
         return self._cache[key]
 
+    def costmap_mask(self, blocked=(), scale=.6):
+        """Occupancy mask for a Nav2 KeepoutFilter on the bundle grid.
+
+        Humble's KeepoutFilter keeps max(sensor, mask) and replaces unknown cells,
+        so unseen road becomes cheap and unseen off-road costs the off-road value
+        (NavFn otherwise prices unknown at 253). Closed roads and keepouts get the
+        off-road value only: a preference, never a hard Nav2 barrier. Values stay
+        at most 60 (cost 152), below path_obstructed's 70 threshold.
+        """
+        g = self.grid
+        factor = self.resolution/g['resolution']
+        if abs(factor-round(factor)) < 1e-6:
+            # Reuse the cached planning raster and repeat it onto the finer grid.
+            factor = round(factor)
+            costs = np.repeat(np.repeat(self.values(blocked), factor, 0), factor, 1)
+        else:
+            costs = self.values(blocked, resolution=g['resolution'])
+        costs = costs[:g['height'], :g['width']]
+        return np.rint(np.minimum(costs, self.offroad_cost)*scale).clip(0, 60).astype(np.int8)
+
     def cell(self, point, values):
         p = validate_point(point)
         bounds = self.policy()['bounds']

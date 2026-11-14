@@ -87,6 +87,15 @@ def nodes(context):
             costmap.update(
                 origin_x=float(grid["origin"][0]), origin_y=float(grid["origin"][1])
             )
+            if robot["road_costmap_scale"] and robot["road_preference_enabled"]:
+                # Soft road cost on NavFn detours only; -1 mask cells keep sensor data.
+                costmap["filters"] = ["road_preference"]
+                costmap["road_preference"] = {
+                    "plugin": "nav2_costmap_2d::KeepoutFilter",
+                    "enabled": True,
+                    "filter_info_topic": "/navigation/road_cost_info",
+                    "transform_tolerance": robot["transform_tolerance_s"],
+                }
         params[name] = {name: {"ros__parameters": costmap}}
     params["controller_server"]["ros__parameters"]["FollowPath"].update(
         max_vel_x=robot["max_speed_mps"], max_speed_xy=robot["max_speed_mps"]

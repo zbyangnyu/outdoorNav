@@ -135,3 +135,33 @@ def test_long_road_route_moves_away_from_edge_toward_centre():
     middle = [point for point in route['reference_path'] if 5 < point['x'] < 25]
     assert middle and max(abs(point['y']) for point in middle) <= .5
     assert route['weighted_cost'] < p._line_cost(start, goal, p.values())
+
+
+def test_costmap_mask_is_soft_and_cheapest_on_the_road():
+    b = bundle()
+    b['grid']['resolution'] = .1
+    b['grid']['width'], b['grid']['height'] = 160, 140
+    p = RoadPreference(b)
+    mask = p.costmap_mask(scale=.6)
+    assert mask.shape == (140, 160) and mask.dtype == np.int8
+    cell = lambda x, y: mask[int((y+2)/.1), int((x+2)/.1)]
+    assert cell(0.1, 3) == 10           # 0.25 m from centre of a 0.75 m half-width road
+    assert cell(11, 3) == 30            # off-road: 50 x 0.6
+    assert mask.min() >= 0 and mask.max() <= 60 < 70   # no skip cells; below path_obstructed
+    closed = p.costmap_mask(['main'], scale=.6)
+    assert closed.max() == 30           # a closed road is soft here, hard only in the reference route
+
+
+def test_road_costmap_scale_config_limits(tmp_path):
+    import json
+    from outdoornav.config import load_robot_config
+    path = tmp_path / 'robot.json'
+    from pathlib import Path
+    base = json.loads((Path(__file__).parents[1] / 'deploy/lynx/robot.fieldtest.json').read_text())
+    path.write_text(json.dumps(base))
+    assert load_robot_config(path)['road_costmap_scale'] == .6
+    for patch in ({'road_costmap_scale': .7}, {'sidestep_max_m': 1.5},
+                  {'road_preference_enabled': False}):
+        path.write_text(json.dumps({**base, **patch}))
+        with pytest.raises(ValueError):
+            load_robot_config(path)

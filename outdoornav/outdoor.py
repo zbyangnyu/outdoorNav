@@ -39,14 +39,17 @@ class OutdoorService:
             raise ValueError('road_offroad_cost requires weighted mode and an integer 1..99')
         return value
 
+    def planner(self, offroad_cost=None):
+        planner = self.preference
+        if planner and offroad_cost is not None and offroad_cost != planner.offroad_cost:
+            from .road_preference import RoadPreference
+            planner = RoadPreference(self.bundle, offroad_cost, planner.resolution,
+                                     planner.keepouts, planner.robot_radius)
+        return planner
+
     def plan_from(self, start, goal, blocked=(), offroad_cost=None):
         if self.preference:
-            planner = self.preference
-            if offroad_cost is not None and offroad_cost != planner.offroad_cost:
-                from .road_preference import RoadPreference
-                planner = RoadPreference(self.bundle, offroad_cost, planner.resolution,
-                                         planner.keepouts, planner.robot_radius)
-            return planner.plan(start, goal, blocked)
+            return self.planner(offroad_cost).plan(start, goal, blocked)
         return plan_route(self.bundle['network'], start, goal, blocked)
 
     def preview(self, payload):

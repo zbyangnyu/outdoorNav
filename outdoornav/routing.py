@@ -122,6 +122,23 @@ def plan_route(network, start, goal, blocked=()):
     raise ValueError("Destination is disconnected from the measured route")
 
 
+def sidestep_points(previous, point, max_offset):
+    """Stations shifted across the incoming edge, nearest first, left before right.
+
+    max_offset stays within RouteGuidance.window's 1.5 m detour allowance (minus
+    planner tolerance), so a reached shifted station still advances progress.
+    """
+    dx, dy = point["x"] - previous["x"], point["y"] - previous["y"]
+    norm = math.hypot(dx, dy)
+    if max_offset <= 0 or norm < 1e-6:
+        return []
+    nx, ny = -dy / norm, dx / norm
+    return [
+        {"x": point["x"] + nx * offset, "y": point["y"] + ny * offset}
+        for offset in (max_offset / 2, -max_offset / 2, max_offset, -max_offset)
+    ]
+
+
 class RouteGuidance:
     """Ordered, short planning legs; road geometry is guidance, never map data.
 
