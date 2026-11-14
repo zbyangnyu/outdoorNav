@@ -1,14 +1,15 @@
 """Fine-tune SegFormer-B0 Cityscapes -> 4 classes (0 other, 1 paved, 2 grass/soil, 3 stairs).
 env: ITERS (default 20000), OUT. Picks best checkpoint on val mean IoU(paved, grass, stairs)
 minus stairs/grass->road confusion. Logs to OUT/log.jsonl."""
-import glob, json, os, sys, time, random, numpy as np, cv2, torch, torch.nn.functional as F
+import json, os, time, numpy as np, cv2, torch, torch.nn.functional as F
+from pathlib import Path
 from torch.utils.data import Dataset, DataLoader, WeightedRandomSampler
 from transformers import SegformerForSemanticSegmentation
-E = '/root/autodl-tmp/seg/taskE'; DATA = E + '/data'
+E = str(Path(__file__).resolve().parent); DATA = os.environ.get('SEG_DATA', E + '/data')
 OUT = os.environ.get('OUT', E + '/run'); ITERS = int(os.environ.get('ITERS', 20000)); BS = 16
 H, W = 480, 640
 MEAN = np.array([.485, .456, .406], np.float32); STD = np.array([.229, .224, .225], np.float32)
-CS = glob.glob('/root/autodl-tmp/hf/hub/models--nvidia--segformer-b0-finetuned-cityscapes-1024-1024/snapshots/*')[0]
+CS = os.environ.get('SEG_PRETRAINED', 'nvidia/segformer-b0-finetuned-cityscapes-1024-1024')
 
 # ---------- photometric augmentation (random strengths; similar families to taskD but random params)
 def shadow_leaves(im, g, r):
@@ -68,13 +69,22 @@ def aug_photo(im, r):
     return x
 
 class DS(Dataset):
-    def __init__(self, items, train):
+    def __init__(self, items, train, data=DATA, size=(H, W)):
         self.items, self.train = items, train
+        self.data = Path(data)
+        self.size = size
     def __len__(self): return len(self.items)
     def __getitem__(self, i):
-        n = self.items[i]['n']; r = np.random.default_rng()
-        im = cv2.cvtColor(cv2.imread(f'{DATA}/img/{n}.jpg'), cv2.COLOR_BGR2RGB); g = cv2.imread(f'{DATA}/gt/{n}.png', 0)
+        item = self.items[i]
+        n = item['n']
+        H, W = self.size
+        image = self.data / item.get('image', f'img/{n}.jpg')
+        mask = self.data / item.get('mask', f'gt/{n}.png')
+        im = cv2.cvtColor(cv2.imdecode(np.fromfile(image, np.uint8), cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
+        g = cv2.imdecode(np.fromfile(mask, np.uint8), cv2.IMREAD_GRAYSCALE)
         if self.train:
+            # PyTorch seeds NumPy in each data worker.
+            r = np.random.default_rng(np.random.randint(0, 2**32, dtype=np.uint32))
             low = r.random() < .3   # low-viewpoint: zoom into the bottom part of the image
             s = (r.uniform(1.5, 2.8) if low else r.uniform(.6, 1.4)) * max(H / im.shape[0], W / im.shape[1])
             im = cv2.resize(im, None, fx=s, fy=s, interpolation=cv2.INTER_LINEAR); g = cv2.resize(g, im.shape[1::-1], interpolation=cv2.INTER_NEAREST)
@@ -91,8 +101,8 @@ class DS(Dataset):
         x = (im.astype(np.float32) / 255 - MEAN) / STD
         return torch.from_numpy(x.transpose(2, 0, 1).copy()), torch.from_numpy(np.ascontiguousarray(g).astype(np.int64))
 
-def build_model():
-    m = SegformerForSemanticSegmentation.from_pretrained(CS)
+def build_model(pretrained=CS):
+    m = SegformerForSemanticSegmentation.from_pretrained(pretrained)
     old = m.decode_head.classifier; new = torch.nn.Conv2d(old.in_channels, 4, 1)
     with torch.no_grad():  # init: paved=road, grass=terrain, stairs=sidewalk-ish (small), other=building
         new.weight[1] = old.weight[0]; new.bias[1] = old.bias[0]

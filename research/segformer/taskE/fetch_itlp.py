@@ -4,8 +4,11 @@ Mapped to 4 classes; robot arm (labelled bicycle/car-mount/ego) and snow -> igno
 Per track, the last 10% of frames (by time, contiguous) go to val. Appends to data/split.json."""
 import json, os, cv2, numpy as np, requests
 from concurrent.futures import ThreadPoolExecutor
-E = '/root/autodl-tmp/seg/taskE/data'; B = 'https://hf-mirror.com/datasets/OPR-Project/ITLP-Campus-Outdoor/resolve/main/'
-API = 'https://hf-mirror.com/api/datasets/OPR-Project/ITLP-Campus-Outdoor/tree/main/'
+from pathlib import Path
+E = os.environ.get('SEG_DATA', str(Path(__file__).resolve().parent / 'data'))
+HUB = os.environ.get('HF_ENDPOINT', 'https://huggingface.co').rstrip('/')
+B = HUB + '/datasets/OPR-Project/ITLP-Campus-Outdoor/resolve/main/'
+API = HUB + '/api/datasets/OPR-Project/ITLP-Campus-Outdoor/tree/main/'
 TRACKS = {'05_2023-08-15-day': 2, '07_2023-10-04-day': 2, '06_2023-08-18-night': 4, '08_2023-10-11-night': 4}  # every k-th frame
 LUT = np.zeros(256, np.uint8)
 for k in (7, 8, 9, 10, 11, 13, 14, 15, 23, 24, 36, 41, 43): LUT[k] = 1   # bike lane, crosswalk, curb cut, parking, ped. area, road, service lane, sidewalk, markings, catch basin, manhole, pothole

@@ -2,12 +2,20 @@
 ADE20K: only ADEChallengeData2016 *training* split (taskD tests on ADE validation -> no overlap).
 RUGD: frames from the same videos as taskD test but >= GAP frames away from any taskD test frame;
      sequences trail-9 and creek are held out completely as a RUGD val set.
-Writes /root/autodl-tmp/seg/taskE/data/{img,gt}/ + split.json"""
+Writes SEG_DATA/{img,gt}/ + split.json"""
 import glob, json, os, random, numpy as np, cv2
+from pathlib import Path
 from remotezip import RemoteZip
 random.seed(0)
-E = '/root/autodl-tmp/seg/taskE/data'; D = '/root/autodl-tmp/seg/taskD/data'
-ADE = '/root/autodl-tmp/ade/ADEChallengeData2016'
+HERE = Path(__file__).resolve().parent
+E = os.environ.get('SEG_DATA', str(HERE / 'data'))
+D = os.environ.get('SEG_TASKD_DATA', str(HERE.parent / 'taskD' / 'data'))
+ADE = os.environ.get('SEG_ADE', str(HERE / 'ADEChallengeData2016'))
+RUGD_FRAMES = os.environ.get('SEG_RUGD_FRAMES', 'http://rugd.vision/data/RUGD_frames-with-annotations.zip')
+if not Path(ADE, 'annotations', 'training').is_dir():
+    raise FileNotFoundError('Set SEG_ADE to the extracted ADEChallengeData2016 directory')
+if not Path(D, 'RUGD_annotations').is_dir():
+    raise FileNotFoundError('Set SEG_TASKD_DATA to the directory containing RUGD_annotations')
 os.makedirs(E + '/img', exist_ok=True); os.makedirs(E + '/gt', exist_ok=True)
 # ---- ADE (annotation value = class id + 1, 0 = unlabeled); mapping identical to taskD prep_ade.py
 LUT = np.zeros(256, np.uint8); LUT[0] = 255
@@ -58,11 +66,12 @@ tl = threading.local()
 def fetch(job):
     part, f, s = job; b = os.path.basename(f); n = 'rugd_' + b[:-4]
     if not os.path.exists(f'{E}/gt/{n}.png'):
-        if not hasattr(tl, 'z'): tl.z = RemoteZip('http://rugd.vision/data/RUGD_frames-with-annotations.zip')
+        if not hasattr(tl, 'z'): tl.z = RemoteZip(RUGD_FRAMES)
         names = {os.path.basename(x): x for x in tl.z.namelist() if x.endswith('.png')}
         for k in range(5):
             try: data = tl.z.read(names[b]); break
-            except Exception: tl.z = RemoteZip('http://rugd.vision/data/RUGD_frames-with-annotations.zip')
+            except Exception: tl.z = RemoteZip(RUGD_FRAMES)
+        else: raise RuntimeError(f'Could not download RUGD frame {b}')
         im = cv2.imdecode(np.frombuffer(data, np.uint8), 1)
         a = cv2.cvtColor(cv2.imread(f), cv2.COLOR_BGR2RGB); g = np.zeros(a.shape[:2], np.uint8)
         for c, v in COL.items(): g[np.all(a == c, -1)] = v

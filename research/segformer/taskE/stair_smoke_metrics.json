@@ -1,0 +1,113 @@
+{
+  "A": {
+    "step": 4,
+    "threshold": 0.7,
+    "peak_training_allocated_bytes": 8752243712,
+    "weights_sha256": "3846f1430ef7791fddcfd9ca03e74359af91512530039ca62522a4ca8e4ad9fa",
+    "frames": 6,
+    "scene_counts": {
+      "stairs": 3,
+      "road": 3
+    },
+    "downstairs": {
+      "stairs_as_road": null,
+      "stairs_recall": null,
+      "stairs_iou": null,
+      "stairs_pixels": 0
+    },
+    "generic_stairs": {
+      "stairs_as_road": 0.3728941621899883,
+      "stairs_recall": 0.04447064489077458,
+      "stairs_iou": 0.03248876298852945,
+      "stairs_pixels": 120439
+    },
+    "road_iou": 0.8635043472324792,
+    "no_stairs_frames": 3,
+    "no_stairs_false_positive_pixels": 0.1448915608273759,
+    "no_stairs_false_alarm_frames": 1.0,
+    "by_stair": {
+      "ADE_val_00000254": {
+        "frames": 1,
+        "stairs_as_road": 0.3102302174484546,
+        "stairs_recall": 0.03288015923686484,
+        "stairs_iou": 0.02605693537106207,
+        "stairs_pixels": 53254
+      },
+      "ADE_val_00000357": {
+        "frames": 1,
+        "stairs_as_road": 0.7694392498035071,
+        "stairs_recall": 0.007697102745480662,
+        "stairs_iou": 0.004650705793731373,
+        "stairs_pixels": 36897
+      },
+      "ADE_val_00000551": {
+        "frames": 1,
+        "stairs_as_road": 0.0,
+        "stairs_recall": 0.1096473851030111,
+        "stairs_iou": 0.09075754263226934,
+        "stairs_pixels": 30288
+      }
+    },
+    "forward_speed": {
+      "median_ms": 13.825199974235147,
+      "p95_ms": 16.08843502472154
+    }
+  },
+  "B": {
+    "step": 4,
+    "threshold": 0.7,
+    "peak_training_allocated_bytes": 8752865792,
+    "weights_sha256": "1abff0df54470d7fb10cf16d0239492d0392c15c52f4444aff969cd467331e87",
+    "frames": 6,
+    "scene_counts": {
+      "stairs": 3,
+      "road": 3
+    },
+    "downstairs": {
+      "stairs_as_road": null,
+      "stairs_recall": null,
+      "stairs_iou": null,
+      "stairs_pixels": 0
+    },
+    "generic_stairs": {
+      "stairs_as_road": 0.3720970781889587,
+      "stairs_recall": 0.043939255556754875,
+      "stairs_iou": 0.03212490590777748,
+      "stairs_pixels": 120439
+    },
+    "road_iou": 0.8634462256480913,
+    "no_stairs_frames": 3,
+    "no_stairs_false_positive_pixels": 0.14508655196513823,
+    "no_stairs_false_alarm_frames": 1.0,
+    "by_stair": {
+      "ADE_val_00000254": {
+        "frames": 1,
+        "stairs_as_road": 0.3120141210049949,
+        "stairs_recall": 0.0313403687985879,
+        "stairs_iou": 0.02485628332290829,
+        "stairs_pixels": 53254
+      },
+      "ADE_val_00000357": {
+        "frames": 1,
+        "stairs_as_road": 0.7642626771824268,
+        "stairs_recall": 0.00872699677480554,
+        "stairs_iou": 0.005283365602336495,
+        "stairs_pixels": 36897
+      },
+      "ADE_val_00000551": {
+        "frames": 1,
+        "stairs_as_road": 0.0,
+        "stairs_recall": 0.10898705758055996,
+        "stairs_iou": 0.09009279475982533,
+        "stairs_pixels": 30288
+      }
+    },
+    "forward_speed": {
+      "median_ms": 14.005549950525165,
+      "p95_ms": 16.717430006247014
+    }
+  },
+  "relative_downstairs_error_reduction": null,
+  "purpose": "public_smoke",
+  "eval_device": "NVIDIA GeForce RTX 5090"
+}

@@ -1,0 +1,249 @@
+{
+  "purpose": "public_smoke",
+  "train": [
+    {
+      "n": "ADE_train_00000037",
+      "image": "img/ADE_train_00000037.jpg",
+      "mask": "gt/ADE_train_00000037.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00000037",
+      "stair_id": "ADE_train_00000037"
+    },
+    {
+      "n": "ADE_train_00000104",
+      "image": "img/ADE_train_00000104.jpg",
+      "mask": "gt/ADE_train_00000104.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00000104",
+      "stair_id": "ADE_train_00000104"
+    },
+    {
+      "n": "ADE_train_00000562",
+      "image": "img/ADE_train_00000562.jpg",
+      "mask": "gt/ADE_train_00000562.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00000562",
+      "stair_id": "ADE_train_00000562"
+    },
+    {
+      "n": "ADE_train_00000957",
+      "image": "img/ADE_train_00000957.jpg",
+      "mask": "gt/ADE_train_00000957.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00000957",
+      "stair_id": "ADE_train_00000957"
+    },
+    {
+      "n": "ADE_train_00000997",
+      "image": "img/ADE_train_00000997.jpg",
+      "mask": "gt/ADE_train_00000997.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00000997",
+      "stair_id": "ADE_train_00000997"
+    },
+    {
+      "n": "ADE_train_00001229",
+      "image": "img/ADE_train_00001229.jpg",
+      "mask": "gt/ADE_train_00001229.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_train_00001229",
+      "stair_id": "ADE_train_00001229"
+    },
+    {
+      "n": "ADE_train_00000571",
+      "image": "img/ADE_train_00000571.jpg",
+      "mask": "gt/ADE_train_00000571.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00000571",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_train_00000580",
+      "image": "img/ADE_train_00000580.jpg",
+      "mask": "gt/ADE_train_00000580.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00000580",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_train_00000938",
+      "image": "img/ADE_train_00000938.jpg",
+      "mask": "gt/ADE_train_00000938.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00000938",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_train_00000942",
+      "image": "img/ADE_train_00000942.jpg",
+      "mask": "gt/ADE_train_00000942.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00000942",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_train_00000999",
+      "image": "img/ADE_train_00000999.jpg",
+      "mask": "gt/ADE_train_00000999.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00000999",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_train_00001001",
+      "image": "img/ADE_train_00001001.jpg",
+      "mask": "gt/ADE_train_00001001.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_train_00001001",
+      "stair_id": ""
+    }
+  ],
+  "val": [
+    {
+      "n": "ADE_val_00000017",
+      "image": "img/ADE_val_00000017.jpg",
+      "mask": "gt/ADE_val_00000017.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000017",
+      "stair_id": "ADE_val_00000017"
+    },
+    {
+      "n": "ADE_val_00000054",
+      "image": "img/ADE_val_00000054.jpg",
+      "mask": "gt/ADE_val_00000054.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000054",
+      "stair_id": "ADE_val_00000054"
+    },
+    {
+      "n": "ADE_val_00000218",
+      "image": "img/ADE_val_00000218.jpg",
+      "mask": "gt/ADE_val_00000218.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000218",
+      "stair_id": "ADE_val_00000218"
+    },
+    {
+      "n": "ADE_val_00000003",
+      "image": "img/ADE_val_00000003.jpg",
+      "mask": "gt/ADE_val_00000003.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000003",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_val_00000014",
+      "image": "img/ADE_val_00000014.jpg",
+      "mask": "gt/ADE_val_00000014.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000014",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_val_00000021",
+      "image": "img/ADE_val_00000021.jpg",
+      "mask": "gt/ADE_val_00000021.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000021",
+      "stair_id": ""
+    }
+  ],
+  "test": [
+    {
+      "n": "ADE_val_00000254",
+      "image": "img/ADE_val_00000254.jpg",
+      "mask": "gt/ADE_val_00000254.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000254",
+      "stair_id": "ADE_val_00000254"
+    },
+    {
+      "n": "ADE_val_00000357",
+      "image": "img/ADE_val_00000357.jpg",
+      "mask": "gt/ADE_val_00000357.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000357",
+      "stair_id": "ADE_val_00000357"
+    },
+    {
+      "n": "ADE_val_00000551",
+      "image": "img/ADE_val_00000551.jpg",
+      "mask": "gt/ADE_val_00000551.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "stairs",
+      "sequence": "ADE_val_00000551",
+      "stair_id": "ADE_val_00000551"
+    },
+    {
+      "n": "ADE_val_00000052",
+      "image": "img/ADE_val_00000052.jpg",
+      "mask": "gt/ADE_val_00000052.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000052",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_val_00000278",
+      "image": "img/ADE_val_00000278.jpg",
+      "mask": "gt/ADE_val_00000278.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000278",
+      "stair_id": ""
+    },
+    {
+      "n": "ADE_val_00000301",
+      "image": "img/ADE_val_00000301.jpg",
+      "mask": "gt/ADE_val_00000301.png",
+      "src": "ade",
+      "label_source": "human",
+      "scene": "road",
+      "sequence": "ADE_val_00000301",
+      "stair_id": ""
+    }
+  ]
+}
