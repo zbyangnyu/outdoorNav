@@ -14,6 +14,11 @@
 - [室内模拟联调](simulation/README.md)：mock RTK、IMU 和底盘，运行真实 Scene、定位和导航服务。
 - [相机查看工具](robot-deep_robotics-lynx_s10/tools/camera_view/README.md)：通过 SSH 隧道实时查看山猫四路画面。
 
+## SegFormer 研究交接
+
+训练、评估、导出脚本及实验记录见 [research/segformer/README.md](research/segformer/README.md)。
+该归档不包含数据和模型权重，下楼梯改进尚未实现。
+
 ## 源码位置
 
 | 目录 | 职责 |

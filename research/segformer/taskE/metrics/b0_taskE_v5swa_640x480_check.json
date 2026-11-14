@@ -1,0 +1,12 @@
+{
+ "onnx": "b0_taskE_v5swa_640x480.onnx",
+ "max_abs_logit_diff": 0.015880584716796875,
+ "argmax_agreement_min": 0.9994791666666667,
+ "argmax_agreement_mean": 0.9999630208333334,
+ "providers": [
+  "CUDAExecutionProvider",
+  "CPUExecutionProvider"
+ ],
+ "cpu_max_abs_logit_diff": 4.9591064453125e-05,
+ "cpu_argmax_agreement_min": 1.0
+}

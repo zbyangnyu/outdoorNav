@@ -1,0 +1,56 @@
+Loading weights:   0%|          | 0/208 [00:00<?, ?it/s]Loading weights: 100%|██████████| 208/208 [00:00<00:00, 19083.37it/s]
+train items: stair 1238 road 4067 rest 3000 lynx 60
+Loading weights:   0%|          | 0/208 [00:00<?, ?it/s]Loading weights: 100%|██████████| 208/208 [00:00<00:00, 3466.31it/s]
+[transformers] You passed `num_labels=4` which is incompatible to the `id2label` map of length `150`.
+Loading weights:   0%|          | 0/208 [00:00<?, ?it/s]Loading weights: 100%|██████████| 208/208 [00:00<00:00, 2263.02it/s]
+[transformers] [1mSegformerForSemanticSegmentation LOAD REPORT[0m from: /root/autodl-tmp/hf/hub/models--nvidia--segformer-b0-finetuned-ade-512-512/snapshots/489d5cd81a0b59fab9b7ea758d3548ebe99677da
+Key                           | Status   |                                                                                                     
+------------------------------+----------+-----------------------------------------------------------------------------------------------------
+decode_head.classifier.bias   | MISMATCH | Reinit due to size mismatch - ckpt: torch.Size([150]) vs model:torch.Size([4])                      
+decode_head.classifier.weight | MISMATCH | Reinit due to size mismatch - ckpt: torch.Size([150, 256, 1, 1]) vs model:torch.Size([4, 256, 1, 1])
+
+Notes:
+- MISMATCH:	ckpt weights were loaded, but they did not match the original empty weight shapes.
+iter 0/8000 loss 2.409 11s
+iter 200/8000 loss 0.212 35s
+iter 400/8000 loss 0.155 58s
+iter 600/8000 loss 0.143 82s
+iter 800/8000 loss 0.131 106s
+iter 1000/8000 loss 0.138 129s
+iter 1200/8000 loss 0.134 153s
+iter 1400/8000 loss 0.143 177s
+iter 1600/8000 loss 0.127 201s
+iter 1800/8000 loss 0.118 225s
+iter 2000/8000 loss 0.125 249s
+iter 2200/8000 loss 0.121 273s
+iter 2400/8000 loss 0.114 297s
+iter 2600/8000 loss 0.117 320s
+iter 2800/8000 loss 0.103 345s
+iter 3000/8000 loss 0.113 368s
+iter 3200/8000 loss 0.114 392s
+iter 3400/8000 loss 0.109 416s
+iter 3600/8000 loss 0.118 440s
+iter 3800/8000 loss 0.103 464s
+iter 4000/8000 loss 0.098 489s
+iter 4200/8000 loss 0.114 513s
+iter 4400/8000 loss 0.106 536s
+iter 4600/8000 loss 0.101 560s
+iter 4800/8000 loss 0.101 584s
+iter 5000/8000 loss 0.101 609s
+iter 5200/8000 loss 0.109 633s
+iter 5400/8000 loss 0.099 657s
+iter 5600/8000 loss 0.104 681s
+iter 5800/8000 loss 0.101 705s
+iter 6000/8000 loss 0.098 730s
+iter 6200/8000 loss 0.092 755s
+iter 6400/8000 loss 0.097 780s
+iter 6600/8000 loss 0.089 804s
+iter 6800/8000 loss 0.097 829s
+iter 7000/8000 loss 0.094 853s
+iter 7200/8000 loss 0.093 878s
+iter 7400/8000 loss 0.100 903s
+iter 7600/8000 loss 0.092 927s
+iter 7800/8000 loss 0.091 951s
+iter 7999/8000 loss 0.098 975s
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 20.11it/s]
+TRAIN_DONE

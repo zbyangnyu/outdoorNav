@@ -1,0 +1,31 @@
+{
+ "B0 城市街景": {
+  "lynx_front_paved": 0.9999069010416667,
+  "lynx_bad": 0,
+  "lynx_stair_false": 0
+ },
+ "B0 ADE20K": {
+  "lynx_front_paved": 0.8499752604166666,
+  "lynx_bad": 5,
+  "lynx_stair_false": 0,
+  "ade_stair_iou": 0.18575026090758834,
+  "ade_stair_hit": 18,
+  "ade_pos": 99,
+  "ade_false_alarm": 0,
+  "ade_neg": 300,
+  "web_hit": 19,
+  "web_n": 29
+ },
+ "B0 微调": {
+  "lynx_front_paved": 1.0,
+  "lynx_bad": 0,
+  "lynx_stair_false": 0,
+  "ade_stair_iou": 0.3923239244150941,
+  "ade_stair_hit": 50,
+  "ade_pos": 99,
+  "ade_false_alarm": 6,
+  "ade_neg": 300,
+  "web_hit": 22,
+  "web_n": 29
+ }
+}

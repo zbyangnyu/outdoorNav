@@ -1,0 +1,82 @@
+[
+ {
+  "frame": 89,
+  "rep": {
+   "front_ok": 0.089,
+   "front_breakdown": {
+    "unsure(<0.7)": 0.599,
+    "vegetation": 0.311,
+    "road": 0.089
+   },
+   "road_conf_mean_front": 0.645
+  },
+  "blk": {
+   "front_ok": 0.927,
+   "front_breakdown": {
+    "road": 0.927,
+    "unsure(<0.7)": 0.073
+   },
+   "road_conf_mean_front": 0.878
+  }
+ },
+ {
+  "frame": 90,
+  "rep": {
+   "front_ok": 0.077,
+   "front_breakdown": {
+    "unsure(<0.7)": 0.544,
+    "vegetation": 0.379,
+    "road": 0.078
+   },
+   "road_conf_mean_front": 0.66
+  },
+  "blk": {
+   "front_ok": 0.834,
+   "front_breakdown": {
+    "road": 0.834,
+    "unsure(<0.7)": 0.166
+   },
+   "road_conf_mean_front": 0.846
+  }
+ },
+ {
+  "frame": 88,
+  "rep": {
+   "front_ok": 0.164,
+   "front_breakdown": {
+    "unsure(<0.7)": 0.532,
+    "vegetation": 0.304,
+    "road": 0.164
+   },
+   "road_conf_mean_front": 0.709
+  },
+  "blk": {
+   "front_ok": 0.908,
+   "front_breakdown": {
+    "road": 0.908,
+    "unsure(<0.7)": 0.092
+   },
+   "road_conf_mean_front": 0.88
+  }
+ },
+ {
+  "frame": 78,
+  "rep": {
+   "front_ok": 0.235,
+   "front_breakdown": {
+    "unsure(<0.7)": 0.755,
+    "road": 0.235,
+    "vegetation": 0.009
+   },
+   "road_conf_mean_front": 0.656
+  },
+  "blk": {
+   "front_ok": 0.936,
+   "front_breakdown": {
+    "road": 0.936,
+    "unsure(<0.7)": 0.064
+   },
+   "road_conf_mean_front": 0.882
+  }
+ }
+]

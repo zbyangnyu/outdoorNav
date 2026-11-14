@@ -1,0 +1,57 @@
+Loading weights:   0%|          | 0/208 [00:00<?, ?it/s]Loading weights: 100%|██████████| 208/208 [00:00<00:00, 17085.75it/s]
+Loading weights:   0%|          | 0/208 [00:00<?, ?it/s]Loading weights: 100%|██████████| 208/208 [00:00<00:00, 14656.28it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 31.30it/s]
+1000 286s loss 0.878 {'iou': [0.779, 0.703, 0.431, 0.097], 'stairs_as_road': 0.253, 'grass_as_road': 0.14, 'other_as_road': 0.055, 'score': 0.017, 'it': 1000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 31.00it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 22.25it/s]
+2000 543s loss 0.588 {'iou': [0.818, 0.839, 0.436, 0.282], 'stairs_as_road': 0.095, 'grass_as_road': 0.092, 'other_as_road': 0.015, 'score': 0.331, 'it': 2000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 31.75it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 25.27it/s]
+3000 804s loss 0.503 {'iou': [0.82, 0.865, 0.451, 0.336], 'stairs_as_road': 0.062, 'grass_as_road': 0.066, 'other_as_road': 0.012, 'score': 0.422, 'it': 3000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 28.96it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 27.43it/s]
+4000 1066s loss 0.350 {'iou': [0.829, 0.879, 0.462, 0.364], 'stairs_as_road': 0.046, 'grass_as_road': 0.051, 'other_as_road': 0.008, 'score': 0.471, 'it': 4000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 17.40it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 19.39it/s]
+5000 1327s loss 0.742 {'iou': [0.825, 0.887, 0.465, 0.376], 'stairs_as_road': 0.044, 'grass_as_road': 0.042, 'other_as_road': 0.009, 'score': 0.489, 'it': 5000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 32.90it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 21.28it/s]
+6000 1587s loss 0.631 {'iou': [0.83, 0.89, 0.468, 0.393], 'stairs_as_road': 0.035, 'grass_as_road': 0.047, 'other_as_road': 0.008, 'score': 0.502, 'it': 6000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 33.03it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 17.33it/s]
+7000 1845s loss 0.298 {'iou': [0.833, 0.89, 0.471, 0.4], 'stairs_as_road': 0.026, 'grass_as_road': 0.051, 'other_as_road': 0.008, 'score': 0.51, 'it': 7000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 34.40it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 27.24it/s]
+8000 2105s loss 0.500 {'iou': [0.835, 0.895, 0.475, 0.426], 'stairs_as_road': 0.032, 'grass_as_road': 0.045, 'other_as_road': 0.008, 'score': 0.522, 'it': 8000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 17.77it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 18.92it/s]
+9000 2370s loss 0.474 {'iou': [0.838, 0.899, 0.479, 0.435], 'stairs_as_road': 0.03, 'grass_as_road': 0.042, 'other_as_road': 0.007, 'score': 0.533, 'it': 9000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 32.52it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 22.17it/s]
+10000 2632s loss 0.506 {'iou': [0.836, 0.899, 0.477, 0.44], 'stairs_as_road': 0.027, 'grass_as_road': 0.041, 'other_as_road': 0.008, 'score': 0.538, 'it': 10000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 27.69it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 21.11it/s]
+11000 2890s loss 0.390 {'iou': [0.836, 0.899, 0.478, 0.454], 'stairs_as_road': 0.032, 'grass_as_road': 0.042, 'other_as_road': 0.008, 'score': 0.536, 'it': 11000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 24.39it/s]
+12000 3148s loss 0.408 {'iou': [0.838, 0.901, 0.483, 0.446], 'stairs_as_road': 0.038, 'grass_as_road': 0.037, 'other_as_road': 0.008, 'score': 0.535, 'it': 12000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 27.31it/s]
+13000 3403s loss 0.508 {'iou': [0.841, 0.907, 0.49, 0.448], 'stairs_as_road': 0.029, 'grass_as_road': 0.029, 'other_as_road': 0.007, 'score': 0.557, 'it': 13000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 24.60it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 21.23it/s]
+14000 3662s loss 0.433 {'iou': [0.838, 0.907, 0.487, 0.443], 'stairs_as_road': 0.024, 'grass_as_road': 0.024, 'other_as_road': 0.007, 'score': 0.565, 'it': 14000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 31.07it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 26.95it/s]
+15000 3923s loss 0.949 {'iou': [0.838, 0.906, 0.487, 0.445], 'stairs_as_road': 0.025, 'grass_as_road': 0.027, 'other_as_road': 0.007, 'score': 0.561, 'it': 15000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 26.94it/s]
+16000 4183s loss 0.563 {'iou': [0.837, 0.906, 0.488, 0.443], 'stairs_as_road': 0.025, 'grass_as_road': 0.025, 'other_as_road': 0.007, 'score': 0.563, 'it': 16000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 17.97it/s]
+17000 4441s loss 0.539 {'iou': [0.837, 0.904, 0.486, 0.45], 'stairs_as_road': 0.03, 'grass_as_road': 0.028, 'other_as_road': 0.008, 'score': 0.555, 'it': 17000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 24.57it/s]
+18000 4683s loss 0.684 {'iou': [0.838, 0.907, 0.488, 0.451], 'stairs_as_road': 0.028, 'grass_as_road': 0.023, 'other_as_road': 0.007, 'score': 0.563, 'it': 18000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 25.99it/s]
+19000 4844s loss 0.448 {'iou': [0.839, 0.907, 0.488, 0.462], 'stairs_as_road': 0.027, 'grass_as_road': 0.024, 'other_as_road': 0.007, 'score': 0.568, 'it': 19000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 30.74it/s]
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 24.51it/s]
+20000 5004s loss 0.487 {'iou': [0.839, 0.908, 0.489, 0.453], 'stairs_as_road': 0.024, 'grass_as_road': 0.023, 'other_as_road': 0.007, 'score': 0.57, 'it': 20000}
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00, 36.64it/s]
+TRAIN_DONE best 0.5699954570587297

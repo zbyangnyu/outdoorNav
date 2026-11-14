@@ -1,0 +1,20 @@
+{
+ "n": 277,
+ "n_stairs": 30,
+ "mapped_names": {
+  "step, stair": 3,
+  "earth, ground": 2,
+  "road, route": 1,
+  "stairs, steps": 3,
+  "grass": 2,
+  "land, ground, soil": 2,
+  "path": 1,
+  "dirt track": 2,
+  "stairway, staircase": 3,
+  "sand": 2,
+  "field": 2,
+  "sidewalk, pavement": 1,
+  "footpath": 1,
+  "runway": 1
+ }
+}

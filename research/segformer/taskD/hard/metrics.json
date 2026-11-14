@@ -1,0 +1,153 @@
+{
+ "RUGD": {
+  "frames": 217,
+  "PIDNet-M (deployed 1x)": {
+   "paved_iou": 0.5069848216256135,
+   "grass_as_road": 0.014124249880627477,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 0.0005817122042371438,
+   "grass_recall": 0.03408342022832845,
+   "paved_unsure": 0.3498837490217313,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  },
+  "SegF-B0 CS": {
+   "paved_iou": 0.8014784618344837,
+   "grass_as_road": 0.15840800699561253,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 0.0026775648840962154,
+   "grass_recall": 0.3214401878744375,
+   "paved_unsure": 0.03403199930213254,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  },
+  "SegF-B1 CS": {
+   "paved_iou": 0.7923287140302137,
+   "grass_as_road": 0.17741773790466042,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 0.0028456042511454584,
+   "grass_recall": 0.4275522535640017,
+   "paved_unsure": 0.025095544337747962,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  },
+  "SegF-B0 ADE": {
+   "paved_iou": 0.45949928388358063,
+   "grass_as_road": 0.008411225792522502,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 7.193402501652441e-05,
+   "grass_recall": 0.2893609206688881,
+   "paved_unsure": 0.39331029180487104,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  },
+  "SegF-B1 ADE": {
+   "paved_iou": 0.6732325033171072,
+   "grass_as_road": 0.0275624335081313,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 0.0008832273468249491,
+   "grass_recall": 0.39553698665295695,
+   "paved_unsure": 0.1708608583814944,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  },
+  "SegF-B2 ADE": {
+   "paved_iou": 0.5338176750561258,
+   "grass_as_road": 0.019901368174160813,
+   "stairs_as_road": null,
+   "stairs_recall": null,
+   "other_as_road": 0.0005194977395179182,
+   "grass_recall": 0.46856226179200733,
+   "paved_unsure": 0.16814289288209092,
+   "px_paved": 17699636,
+   "px_grass": 21296777,
+   "px_stairs": 0
+  }
+ },
+ "ADE20K": {
+  "frames": 277,
+  "PIDNet-M (deployed 1x)": {
+   "paved_iou": 0.38958505538995014,
+   "grass_as_road": 0.1104433142149318,
+   "stairs_as_road": 0.1148021630323013,
+   "stairs_recall": 0.0,
+   "other_as_road": 0.034184642040160126,
+   "grass_recall": 0.2773674359724765,
+   "paved_unsure": 0.1852229301969085,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  },
+  "SegF-B0 CS": {
+   "paved_iou": 0.2825346745413235,
+   "grass_as_road": 0.3240522973681166,
+   "stairs_as_road": 0.2059744815424518,
+   "stairs_recall": 0.0,
+   "other_as_road": 0.04736146090841796,
+   "grass_recall": 0.3784308650533834,
+   "paved_unsure": 0.11313117640480393,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  },
+  "SegF-B1 CS": {
+   "paved_iou": 0.2868210204993708,
+   "grass_as_road": 0.30872186080157277,
+   "stairs_as_road": 0.14731656925204903,
+   "stairs_recall": 0.0,
+   "other_as_road": 0.04658012313991429,
+   "grass_recall": 0.4216722751416379,
+   "paved_unsure": 0.1265116252110513,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  },
+  "SegF-B0 ADE": {
+   "paved_iou": 0.5678353772042983,
+   "grass_as_road": 0.02635251428532537,
+   "stairs_as_road": 0.009864517365891839,
+   "stairs_recall": 0.14117144708635493,
+   "other_as_road": 0.003362314655027827,
+   "grass_recall": 0.6398631408950679,
+   "paved_unsure": 0.28470498503888253,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  },
+  "SegF-B1 ADE": {
+   "paved_iou": 0.6104577516040582,
+   "grass_as_road": 0.03655094832003407,
+   "stairs_as_road": 0.01399902717416276,
+   "stairs_recall": 0.04518966142808931,
+   "other_as_road": 0.004372620118532025,
+   "grass_recall": 0.6864744196176384,
+   "paved_unsure": 0.18397861392134027,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  },
+  "SegF-B2 ADE": {
+   "paved_iou": 0.6361751008881742,
+   "grass_as_road": 0.038389970666104035,
+   "stairs_as_road": 0.020216239853854307,
+   "stairs_recall": 0.08662507070415795,
+   "other_as_road": 0.003954069668927664,
+   "grass_recall": 0.7146951248562231,
+   "paved_unsure": 0.14758982125760672,
+   "px_paved": 5865872,
+   "px_grass": 25712575,
+   "px_stairs": 1262302
+  }
+ },
+ "legend": "samples: green paved, yellow grass/soil, magenta stairs, grey unsure(<0.7)"
+}

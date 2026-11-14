@@ -1,0 +1,51 @@
+[
+  {
+    "directory": "primitive-g70-gnss-rbnx",
+    "origin": "git@github.com:syswonder/primitive-g70-gnss-rbnx.git",
+    "branch": "main",
+    "commit": "8d420fee6f90123dbd5ad744eb9822caad6965ea",
+    "dirty": false
+  },
+  {
+    "directory": "primitive-wit-imu-rbnx",
+    "origin": "git@github.com:syswonder/primitive-wit-imu-rbnx.git",
+    "branch": "main",
+    "commit": "2d7ea55784acfae6005e43865986a6d795071670",
+    "dirty": false
+  },
+  {
+    "directory": "robonix",
+    "origin": "git@github.com:syswonder/robonix.git",
+    "branch": "dev",
+    "commit": "39ab370c78c59f5f939e4cf86aa0e92ded3104a3",
+    "dirty": false
+  },
+  {
+    "directory": "robot-deep_robotics-lynx_s10",
+    "origin": "git@github.com:syswonder/robot-deep_robotics-lynx_s10.git",
+    "branch": "main",
+    "commit": "50f9e7905ef9b95456cf4de25ecf72cd1dc42c6d",
+    "dirty": false
+  },
+  {
+    "directory": "service-localization-outdoor-rbnx",
+    "origin": "git@github.com:syswonder/service-localization-outdoor-rbnx.git",
+    "branch": "main",
+    "commit": "384fcec0ae279b7247eeed682bb3d301ba75b0ac",
+    "dirty": false
+  },
+  {
+    "directory": "service-map-outdoor-rbnx",
+    "origin": "git@github.com:syswonder/service-map-outdoor-rbnx.git",
+    "branch": "main",
+    "commit": "93de4dc141da4b40efd2d665b83d34b5c067a9fd",
+    "dirty": false
+  },
+  {
+    "directory": "service-navigation-outdoor-rbnx",
+    "origin": "git@github.com:syswonder/service-navigation-outdoor-rbnx.git",
+    "branch": "main",
+    "commit": "79e40601094b2579add613277cdbbf885cbae189",
+    "dirty": false
+  }
+]

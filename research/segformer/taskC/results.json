@@ -1,0 +1,227 @@
+{
+ "speed": [
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "PyTorch fp32",
+   "ms_model": 7.9818060621619225,
+   "ms_e2e": 8.596785366535187
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "PyTorch fp16 (autocast)",
+   "ms_model": 10.774544440209866,
+   "ms_e2e": 9.718968532979488
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "ORT CUDA fp32",
+   "ms_model": 2.6437281630933285,
+   "ms_e2e": 3.3417334780097008
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "ORT CUDA fp32 (dynamic onnx)",
+   "ms_model": 3.0057989060878754,
+   "ms_e2e": 3.674328327178955
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "TensorRT fp16",
+   "ms_model": 0.8371095173060894,
+   "ms_e2e": 1.4269598759710789
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "PyTorch fp32",
+   "ms_model": 7.487043738365173,
+   "ms_e2e": 6.66718790307641
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "PyTorch fp16 (autocast)",
+   "ms_model": 8.66607017815113,
+   "ms_e2e": 9.506901260465384
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "ORT CUDA fp32",
+   "ms_model": 2.319592982530594,
+   "ms_e2e": 2.939030062407255
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "ORT CUDA fp32 (dynamic onnx)",
+   "ms_model": 2.5123395025730133,
+   "ms_e2e": 3.1397417187690735
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "TensorRT fp16",
+   "ms_model": 0.6086342036724091,
+   "ms_e2e": 1.2161796912550926
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "PyTorch fp32",
+   "ms_model": 6.808101199567318,
+   "ms_e2e": 7.700210902839899
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "PyTorch fp16 (autocast)",
+   "ms_model": 8.793378714472055,
+   "ms_e2e": 9.630903135985136
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "TensorRT fp16",
+   "ms_model": 0.8227522484958172,
+   "ms_e2e": 1.439959742128849
+  }
+ ],
+ "checks": [
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "PyTorch fp32",
+   "paved_agree": 1.0,
+   "paved_iou": 1.0,
+   "front": 0.9986934895833334,
+   "front_ref": 0.9986934895833334,
+   "max_logit_err": 0.0
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "PyTorch fp16 (autocast)",
+   "paved_agree": 0.9999563151041667,
+   "paved_iou": 0.9999041826897676,
+   "front": 0.9986963541666667,
+   "front_ref": 0.9986934895833334,
+   "max_logit_err": 0.05126190185546875
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "ORT CUDA fp32",
+   "paved_agree": 0.9999773111979167,
+   "paved_iou": 0.9999502333996436,
+   "front": 0.9986953125,
+   "front_ref": 0.9986934895833334,
+   "max_logit_err": 0.021087646484375
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "ORT CUDA fp32 (dynamic onnx)",
+   "paved_agree": 0.9999775716145833,
+   "paved_iou": 0.9999508046334181,
+   "front": 0.9986953125,
+   "front_ref": 0.9986934895833334,
+   "max_logit_err": 0.02223348617553711
+  },
+  {
+   "model": "SegF-B0",
+   "res": "480x640",
+   "backend": "TensorRT fp16",
+   "paved_agree": 0.9999066731770834,
+   "paved_iou": 0.9997953104751702,
+   "front": 0.9986934895833334,
+   "front_ref": 0.9986934895833334,
+   "max_logit_err": 0.15302276611328125
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "PyTorch fp32",
+   "paved_agree": 1.0,
+   "paved_iou": 1.0,
+   "front": 0.9813677083333333,
+   "front_ref": 0.9813677083333333,
+   "max_logit_err": 0.0
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "PyTorch fp16 (autocast)",
+   "paved_agree": 0.9999033203125,
+   "paved_iou": 0.9997875378425863,
+   "front": 0.9813723958333334,
+   "front_ref": 0.9813677083333333,
+   "max_logit_err": 0.05737495422363281
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "ORT CUDA fp32",
+   "paved_agree": 0.9999500325520834,
+   "paved_iou": 0.9998901839158284,
+   "front": 0.9813580729166667,
+   "front_ref": 0.9813677083333333,
+   "max_logit_err": 0.02573394775390625
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "ORT CUDA fp32 (dynamic onnx)",
+   "paved_agree": 0.99994755859375,
+   "paved_iou": 0.9998847470068025,
+   "front": 0.9813333333333333,
+   "front_ref": 0.9813677083333333,
+   "max_logit_err": 0.025194168090820312
+  },
+  {
+   "model": "SegF-B0",
+   "res": "240x320",
+   "backend": "TensorRT fp16",
+   "paved_agree": 0.9997291666666667,
+   "paved_iou": 0.9994049553487648,
+   "front": 0.9814791666666667,
+   "front_ref": 0.9813677083333333,
+   "max_logit_err": 0.16548538208007812
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "PyTorch fp32",
+   "paved_agree": 1.0,
+   "paved_iou": 1.0,
+   "front": 0.6303606770833333,
+   "front_ref": 0.6303606770833333,
+   "max_logit_err": 0.0
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "PyTorch fp16 (autocast)",
+   "paved_agree": 0.9996504231770833,
+   "paved_iou": 0.9988886575388737,
+   "front": 0.629559375,
+   "front_ref": 0.6303606770833333,
+   "max_logit_err": 0.02116250991821289
+  },
+  {
+   "model": "PIDNet-M",
+   "res": "512x640",
+   "backend": "TensorRT fp16",
+   "paved_agree": 0.9992182291666667,
+   "paved_iou": 0.9975174656566038,
+   "front": 0.6303838541666666,
+   "front_ref": 0.6303606770833333,
+   "max_logit_err": 0.05288577079772949
+  }
+ ]
+}

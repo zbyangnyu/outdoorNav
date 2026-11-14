@@ -1,0 +1,23 @@
+{
+ "SegF-B0 ADE": {
+  "ade_stair_iou": 0.18575026090758834,
+  "ade_stair_hit": "18/99",
+  "ade_false_alarm": "0/300",
+  "web_hit": "19/29",
+  "web_stair_frac_mean": 0.10052065784408416
+ },
+ "SegF-B1 ADE": {
+  "ade_stair_iou": 0.2658129923146754,
+  "ade_stair_hit": "31/99",
+  "ade_false_alarm": "1/300",
+  "web_hit": "19/29",
+  "web_stair_frac_mean": 0.10224021331711121
+ },
+ "SegF-B2 ADE": {
+  "ade_stair_iou": 0.29248765242311503,
+  "ade_stair_hit": "38/99",
+  "ade_false_alarm": "0/300",
+  "web_hit": "23/29",
+  "web_stair_frac_mean": 0.11093814573173616
+ }
+}
