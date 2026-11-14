@@ -1,0 +1,36 @@
+{
+  "purpose": "beihang_ab",
+  "seed": 20261115,
+  "size": [
+    384,
+    512
+  ],
+  "steps": 1000,
+  "batch_size": 8,
+  "eval_batch_size": 8,
+  "workers": 4,
+  "bf16": true,
+  "backbone_lr": 3E-05,
+  "head_lr": 0.0006,
+  "warmup_steps": 100,
+  "weight_decay": 0.01,
+  "class_weights": [
+    1.0,
+    1.0,
+    1.2,
+    3.0
+  ],
+  "distill_weight": 0.5,
+  "ema_decay": 0.995,
+  "edge_radius": 3,
+  "edge_weight": 0.2,
+  "validate_every": 250,
+  "log_every": 50,
+  "thresholds": [
+    0.5,
+    0.4,
+    0.6,
+    0.7,
+    0.0
+  ]
+}

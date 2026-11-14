@@ -1,0 +1,71 @@
+{
+  "matched_rgb_masks_edges": 2832,
+  "original_direction_candidates": {
+    "downstairs": 1201,
+    "upstairs": 1631
+  },
+  "park_deduplicated_candidates": {
+    "upstairs": 191,
+    "downstairs": 164
+  },
+  "balanced_groups": {
+    "early_granite": {
+      "part": "train",
+      "per_direction": 6
+    },
+    "blue_slate": {
+      "part": "train",
+      "per_direction": 6
+    },
+    "grass_brick_path": {
+      "part": "test",
+      "per_direction": 4
+    },
+    "curved_and_leaves": {
+      "part": "train",
+      "per_direction": 8
+    },
+    "moss_brick_path": {
+      "part": "val",
+      "per_direction": 3
+    },
+    "building_landings": {
+      "part": "test",
+      "per_direction": 16
+    },
+    "garden_granite": {
+      "part": "train",
+      "per_direction": 43
+    },
+    "ornate_stone_complex": {
+      "part": "test",
+      "per_direction": 21
+    },
+    "beige_stone_complex": {
+      "part": "val",
+      "per_direction": 49
+    },
+    "rough_stone_steps": {
+      "part": "test",
+      "per_direction": 3
+    }
+  },
+  "split": {
+    "train": {
+      "upstairs": 63,
+      "downstairs": 63,
+      "mixed": 200,
+      "road": 240
+    },
+    "val": {
+      "upstairs": 52,
+      "downstairs": 52,
+      "road": 40
+    },
+    "test": {
+      "upstairs": 44,
+      "downstairs": 44,
+      "road": 40
+    }
+  }
+}

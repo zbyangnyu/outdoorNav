@@ -19,7 +19,7 @@ from torch.optim.swa_utils import AveragedModel, get_ema_multi_avg_fn
 from torch.utils.data import DataLoader, WeightedRandomSampler
 from transformers import SegformerForSemanticSegmentation
 
-from stair_split import load_split
+from stair_split import STAIR_SCENES, load_split
 from train import DS, build_model
 
 
@@ -71,8 +71,8 @@ def summarize(rows, matrices):
             negatives += cm
             negative_frames += 1
             false_alarm_frames += int(cm[:, 3].sum() > 0)
-        if scene == "downstairs" or (scene == "stairs" and row["src"] == "ade"):
-            key = row["stair_id"]
+        if scene in STAIR_SCENES:
+            key = (row["stair_id"], scene)
             by_stair[key] += cm
             stair_counts[key] += 1
 
@@ -81,13 +81,17 @@ def summarize(rows, matrices):
         "frames": len(rows),
         "scene_counts": dict(counts),
         "downstairs": stair_metrics(scenes["downstairs"]),
+        "upstairs": stair_metrics(scenes["upstairs"]),
         "generic_stairs": stair_metrics(scenes["stairs"]),
         "road_iou": ratio(road[1, 1], road[1].sum() + road[:, 1].sum() - road[1, 1]),
         "no_stairs_frames": negative_frames,
         "no_stairs_false_positive_pixels": ratio(negatives[:, 3].sum(), negatives.sum()),
         "no_stairs_false_alarm_frames": ratio(false_alarm_frames, negative_frames),
-        "by_stair": {key: {"frames": stair_counts[key], **stair_metrics(cm)}
-                     for key, cm in sorted(by_stair.items())},
+        "by_stair": {
+            group: {scene: {"frames": stair_counts[group, scene], **stair_metrics(by_stair[group, scene])}
+                    for scene in sorted(s for g, s in by_stair if g == group)}
+            for group in sorted({g for g, _ in by_stair})
+        },
     }
 
 
@@ -101,7 +105,7 @@ def score(metrics, smoke):
     return (stair_iou + road_iou) / 2 - confusion - false_positive
 
 
-def edge_loss(logits, labels, human, radius):
+def edge_loss(logits, labels, human, radius, annotated_edges=None):
     # Only boundaries between known stair and known non-stair pixels are positive.
     known = (labels != 255) & human[:, None, None]
     stairs = labels == 3
@@ -112,6 +116,8 @@ def edge_loss(logits, labels, human, radius):
     edges[:, :-1] |= vertical
     edges[:, :, 1:] |= horizontal
     edges[:, :, :-1] |= horizontal
+    if annotated_edges is not None:
+        edges |= annotated_edges & known
     kernel = 2 * radius + 1
     target = F.max_pool2d(edges[:, None].float(), kernel, stride=1, padding=radius)[:, 0].bool()
     unknown = F.max_pool2d((~known)[:, None].float(), kernel, stride=1, padding=radius)[:, 0].bool()
@@ -127,8 +133,10 @@ def edge_loss(logits, labels, human, radius):
 
 class TrainingData(DS):
     def __getitem__(self, index):
-        image, label = super().__getitem__(index)
-        return image, label, self.items[index]["label_source"] == "human"
+        sample = super().__getitem__(index)
+        row = self.items[index]
+        edge = sample[2] if self.with_edges else torch.empty(0, dtype=torch.bool)
+        return sample[0], sample[1], edge, row["label_source"] == "human", row["src"] == "beihang"
 
 
 def resize(logits, size):
@@ -167,13 +175,14 @@ def train(args, split, cfg, device):
     output = args.output
     output.mkdir(parents=True, exist_ok=False)
     seed = cfg["seed"]
+    edge_weight = cfg["edge_weight"] if args.edge_weight is None else args.edge_weight
     seed_everything(seed)
     rows = split["train"]
-    weights = [3.0 if row["scene"] in {"stairs", "downstairs"}
+    weights = [3.0 if row["scene"] in STAIR_SCENES
                else .5 if row["src"] == "rugd" else 1.0 for row in rows]
     sampler = WeightedRandomSampler(weights, cfg["steps"] * cfg["batch_size"], replacement=True,
                                     generator=torch.Generator().manual_seed(seed))
-    dataset = TrainingData(rows, True, args.data, tuple(cfg["size"]))
+    dataset = TrainingData(rows, True, args.data, tuple(cfg["size"]), with_edges=args.variant == "B")
     loader = DataLoader(dataset, cfg["batch_size"], sampler=sampler, drop_last=True,
                         num_workers=cfg["workers"], pin_memory=device.type == "cuda",
                         generator=torch.Generator().manual_seed(seed + 1))
@@ -215,7 +224,7 @@ def train(args, split, cfg, device):
     }
     start = perf_counter()
     with (output / "log.jsonl").open("w", encoding="utf-8") as log:
-        for step, (image, label, human) in enumerate(loader, 1):
+        for step, (image, label, edge, human, stair_only) in enumerate(loader, 1):
             model.train()
             image, label, human = image.to(device), label.to(device), human.to(device)
             with amp(device, cfg):
@@ -224,10 +233,12 @@ def train(args, split, cfg, device):
                     teacher_logits = teacher(pixel_values=image).logits
             size = label.shape[-2:]
             logits = resize(logits, size)
-            pixels = label != 255
+            # Stair-only masks annotate where stairs end, but do not classify road/soil.
+            semantic = label.masked_fill(stair_only.to(device)[:, None, None] & (label == 0), 255)
+            pixels = semantic != 255
             # Normalise by the class-weight sum to match Task E's weighted mean.
-            segmentation = F.cross_entropy(logits, label, weight=weights, ignore_index=255, reduction="sum")
-            segmentation = segmentation / weights[label[pixels]].sum().clamp_min(1)
+            segmentation = F.cross_entropy(logits, semantic, weight=weights, ignore_index=255, reduction="sum")
+            segmentation = segmentation / weights[semantic[pixels]].sum().clamp_min(1)
             teacher_probs = resize(teacher_logits, size).softmax(1)
             target = (teacher_probs[:, 0] + teacher_probs[:, 1]).clamp(1e-4, 1 - 1e-4)
             road = logits.softmax(1)[:, 1].clamp(1e-4, 1 - 1e-4)
@@ -238,8 +249,8 @@ def train(args, split, cfg, device):
             stats = {"step": step}
             if edge_head is not None:
                 boundary, positives = edge_loss(resize(edge_outputs.pop(), size)[:, 0], label, human,
-                                                cfg["edge_radius"])
-                loss = loss + cfg["edge_weight"] * boundary
+                                                cfg["edge_radius"], edge.to(device))
+                loss = loss + edge_weight * boundary
                 if step == 1 or step % cfg["log_every"] == 0 or step == steps:
                     stats.update(edge_loss=boundary.item(), edge_positive_pixels=positives.item())
             optimizer.zero_grad(set_to_none=True)
@@ -267,7 +278,8 @@ def train(args, split, cfg, device):
                     peak = torch.cuda.max_memory_allocated(device) if device.type == "cuda" else None
                     write_json(output / "selected.json",
                                {**common, **best, "peak_allocated_bytes": peak,
-                                "seconds": perf_counter() - start})
+                                "seconds": perf_counter() - start,
+                                "edge_weight": edge_weight if edge_head is not None else None})
                 print(f"{args.variant} step {step}/{steps}, best validation score at this step="
                       f"{best['score']:.4f}", flush=True)
 
@@ -341,11 +353,17 @@ def compare(args, split, cfg, device):
         per_model.append(matrices)
         results[key] = {"step": selection["step"], "threshold": threshold,
                         "peak_training_allocated_bytes": selection["peak_allocated_bytes"],
+                        "edge_weight": selection.get("edge_weight", cfg["edge_weight"] if key == "B" else None),
                         "weights_sha256": digest(run / "selected/model.safetensors"),
                         **summarize(rows, matrices), "forward_speed": benchmark(model, device, cfg)}
     a, b = results["A"], results["B"]
     error_a, error_b = (value["downstairs"]["stairs_as_road"] for value in (a, b))
     results["relative_downstairs_error_reduction"] = ratio(error_a - error_b, error_a) if error_a else None
+    for value in (a, b):
+        for metric in ("stairs_iou", "stairs_recall"):
+            down = value["downstairs"][metric]
+            up = value["upstairs"][metric]
+            value[f"down_over_up_{metric}"] = ratio(down, up) if down is not None else None
     results["purpose"] = split["purpose"]
     results["eval_device"] = torch.cuda.get_device_name(device) if device.type == "cuda" else "CPU"
     cases = []
@@ -365,6 +383,10 @@ def compare(args, split, cfg, device):
             i, first, second = case
             panels.setdefault(i, f"{label}: {first:.1%} / {second:.1%}")
     for i, row in enumerate(rows):
+        if row["scene"] == "upstairs":
+            panels[i] = "Upward example"
+            break
+    for i, row in enumerate(rows):
         if row["scene"] == "road":
             panels[i] = "Ordinary road"
             break
@@ -381,17 +403,23 @@ def main():
     parser.add_argument("--split", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--smoke", action="store_true")
+    parser.add_argument("--beihang", action="store_true")
     parser.add_argument("--device", default="cuda")
     parser.add_argument("--pretrained", type=Path)
     parser.add_argument("--variant", choices=("A", "B"))
+    parser.add_argument("--edge-weight", type=float, help="Override B's edge loss weight for a validation trial")
     parser.add_argument("--a", type=Path)
     parser.add_argument("--b", type=Path)
     args = parser.parse_args()
     cfg = read_json(args.config)
-    if cfg["purpose"] != ("public_smoke" if args.smoke else "field_experiment"):
-        parser.error("Config purpose does not match --smoke")
+    purpose = "beihang_ab" if args.beihang else "public_smoke" if args.smoke else "field_experiment"
+    if (args.smoke and args.beihang) or cfg["purpose"] != purpose:
+        parser.error("Config purpose does not match requested experiment")
     if args.action == "train" and (not args.variant or not args.pretrained):
         parser.error("train needs --variant and --pretrained")
+    if args.edge_weight is not None and (args.action != "train" or args.variant != "B"
+                                         or not 0 < args.edge_weight < float("inf")):
+        parser.error("--edge-weight requires a positive finite value and train --variant B")
     if args.action == "compare" and (not args.a or not args.b):
         parser.error("compare needs --a and --b")
     os.environ.setdefault("CUBLAS_WORKSPACE_CONFIG", ":4096:8")
@@ -403,7 +431,7 @@ def main():
     if device.type == "cuda" and cfg["bf16"] and not torch.cuda.is_bf16_supported():
         parser.error("GPU does not support bfloat16")
     split = load_split(args.split, args.data, args.smoke,
-                       ("train", "val") if args.action == "train" else ("test",))
+                       ("train", "val") if args.action == "train" else ("test",), beihang=args.beihang)
     if args.action == "train":
         train(args, split, cfg, device)
     else:

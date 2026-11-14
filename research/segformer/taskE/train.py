@@ -69,10 +69,11 @@ def aug_photo(im, r):
     return x
 
 class DS(Dataset):
-    def __init__(self, items, train, data=DATA, size=(H, W)):
+    def __init__(self, items, train, data=DATA, size=(H, W), with_edges=False):
         self.items, self.train = items, train
         self.data = Path(data)
         self.size = size
+        self.with_edges = with_edges
     def __len__(self): return len(self.items)
     def __getitem__(self, i):
         item = self.items[i]
@@ -82,6 +83,12 @@ class DS(Dataset):
         mask = self.data / item.get('mask', f'gt/{n}.png')
         im = cv2.cvtColor(cv2.imdecode(np.fromfile(image, np.uint8), cv2.IMREAD_COLOR), cv2.COLOR_BGR2RGB)
         g = cv2.imdecode(np.fromfile(mask, np.uint8), cv2.IMREAD_GRAYSCALE)
+        if self.with_edges:
+            edge = np.zeros_like(g)
+            if "edge" in item:
+                path = self.data / item["edge"]
+                edge = cv2.imdecode(np.fromfile(path, np.uint8), cv2.IMREAD_GRAYSCALE)
+            g = np.stack((g, edge), axis=-1)
         if self.train:
             # PyTorch seeds NumPy in each data worker.
             r = np.random.default_rng(np.random.randint(0, 2**32, dtype=np.uint32))
@@ -90,15 +97,20 @@ class DS(Dataset):
             im = cv2.resize(im, None, fx=s, fy=s, interpolation=cv2.INTER_LINEAR); g = cv2.resize(g, im.shape[1::-1], interpolation=cv2.INTER_NEAREST)
             if low: im, g = im[-int(max(H, im.shape[0] * .5)):], g[-int(max(H, im.shape[0] * .5)):]
             ph, pw = max(H - im.shape[0], 0), max(W - im.shape[1], 0)
-            im = cv2.copyMakeBorder(im, 0, ph, 0, pw, cv2.BORDER_CONSTANT, 0); g = cv2.copyMakeBorder(g, 0, ph, 0, pw, cv2.BORDER_CONSTANT, 255)
+            im = cv2.copyMakeBorder(im, 0, ph, 0, pw, cv2.BORDER_CONSTANT, 0)
+            g = cv2.copyMakeBorder(g, 0, ph, 0, pw, cv2.BORDER_CONSTANT, (255, 0) if self.with_edges else 255)
             y, x = r.integers(0, im.shape[0] - H + 1), r.integers(0, im.shape[1] - W + 1)
             im, g = im[y:y + H, x:x + W], g[y:y + H, x:x + W]
             if r.random() < .5: im, g = im[:, ::-1], g[:, ::-1]
-            im = shadow_leaves(np.ascontiguousarray(im), g, r)
+            im = shadow_leaves(np.ascontiguousarray(im), g[..., 0] if self.with_edges else g, r)
             im = aug_photo(im, r)
         else:
             im = cv2.resize(im, (W, H), interpolation=cv2.INTER_LINEAR); g = cv2.resize(g, (W, H), interpolation=cv2.INTER_NEAREST)
         x = (im.astype(np.float32) / 255 - MEAN) / STD
+        if self.with_edges:
+            return (torch.from_numpy(x.transpose(2, 0, 1).copy()),
+                    torch.from_numpy(np.ascontiguousarray(g[..., 0], dtype=np.int64)),
+                    torch.from_numpy(np.ascontiguousarray(g[..., 1] > 0)))
         return torch.from_numpy(x.transpose(2, 0, 1).copy()), torch.from_numpy(np.ascontiguousarray(g).astype(np.int64))
 
 def build_model(pretrained=CS):

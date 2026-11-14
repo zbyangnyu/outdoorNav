@@ -1,0 +1,41 @@
+{
+  "runs": {
+    "beihang-A": {
+      "down_iou": 0.6014683651767886,
+      "up_iou": 0.7976454745347235,
+      "down_over_up": 0.7540547578830464,
+      "recall": 0.9577916915983095,
+      "down_as_road": 0.013425323191687115,
+      "road_iou": 0.8913668676738972,
+      "threshold": 0.6,
+      "steps": 1000,
+      "seconds": 231.76007279998157,
+      "edge_weight": null
+    },
+    "beihang-B": {
+      "down_iou": 0.6023815188942484,
+      "up_iou": 0.7985412133710804,
+      "down_over_up": 0.7543524476980539,
+      "recall": 0.9604341295939606,
+      "down_as_road": 0.012287750530677561,
+      "road_iou": 0.891225596796037,
+      "threshold": 0.6,
+      "steps": 1000,
+      "seconds": 239.06861389998812,
+      "edge_weight": 0.2
+    },
+    "beihang-B-edge06": {
+      "down_iou": 0.6041512556814009,
+      "up_iou": 0.7992513712774202,
+      "down_over_up": 0.7558964268222694,
+      "recall": 0.9631619243377092,
+      "down_as_road": 0.010762537526792534,
+      "road_iou": 0.8910869472882784,
+      "threshold": 0.6,
+      "steps": 1000,
+      "seconds": 238.62992060009856,
+      "edge_weight": 0.6
+    }
+  },
+  "selected_B": "beihang-B-edge06"
+}

@@ -1,0 +1,219 @@
+{
+  "A": {
+    "step": 1000,
+    "threshold": 0.6,
+    "peak_training_allocated_bytes": 2684498432,
+    "edge_weight": null,
+    "weights_sha256": "fe7fadb06a86778866dd26c0bc5daf01e52d9326d5182277c6c1a3603ece5e22",
+    "frames": 128,
+    "scene_counts": {
+      "upstairs": 44,
+      "downstairs": 44,
+      "road": 40
+    },
+    "downstairs": {
+      "stairs_as_road": 0.03815023121750952,
+      "stairs_recall": 0.8988458381685555,
+      "stairs_iou": 0.5261576860450331,
+      "stairs_pixels": 4180263
+    },
+    "upstairs": {
+      "stairs_as_road": 0.001607335638880269,
+      "stairs_recall": 0.9782073947777098,
+      "stairs_iou": 0.7393227595051297,
+      "stairs_pixels": 5610527
+    },
+    "generic_stairs": {
+      "stairs_as_road": null,
+      "stairs_recall": null,
+      "stairs_iou": null,
+      "stairs_pixels": 0
+    },
+    "road_iou": 0.8960251484996419,
+    "no_stairs_frames": 40,
+    "no_stairs_false_positive_pixels": 0.003181390276425697,
+    "no_stairs_false_alarm_frames": 0.15,
+    "by_stair": {
+      "building_landings": {
+        "downstairs": {
+          "frames": 16,
+          "stairs_as_road": 0.009334753762907802,
+          "stairs_recall": 0.9683630955520162,
+          "stairs_iou": 0.47585486971398205,
+          "stairs_pixels": 1422105
+        },
+        "upstairs": {
+          "frames": 16,
+          "stairs_as_road": 0.003020057019956985,
+          "stairs_recall": 0.9786900415145301,
+          "stairs_iou": 0.7018586909891258,
+          "stairs_pixels": 1999300
+        }
+      },
+      "grass_brick_path": {
+        "downstairs": {
+          "frames": 4,
+          "stairs_as_road": 0.24206676282711725,
+          "stairs_recall": 0.5230828010165534,
+          "stairs_iou": 0.4464461713766483,
+          "stairs_pixels": 232944
+        },
+        "upstairs": {
+          "frames": 4,
+          "stairs_as_road": 0.000627744540390793,
+          "stairs_recall": 0.8919925731631841,
+          "stairs_iou": 0.7841654856503276,
+          "stairs_pixels": 339310
+        }
+      },
+      "ornate_stone_complex": {
+        "downstairs": {
+          "frames": 21,
+          "stairs_as_road": 0.038132136223836134,
+          "stairs_recall": 0.8877621883987282,
+          "stairs_iou": 0.5760113780927199,
+          "stairs_pixels": 2273699
+        },
+        "upstairs": {
+          "frames": 21,
+          "stairs_as_road": 0.0009620218660929535,
+          "stairs_recall": 0.9856725843585744,
+          "stairs_iou": 0.7531763304403825,
+          "stairs_pixels": 2876234
+        }
+      },
+      "rough_stone_steps": {
+        "downstairs": {
+          "frames": 3,
+          "stairs_as_road": 0.01238097131383814,
+          "stairs_recall": 0.953998767469137,
+          "stairs_iou": 0.5104778316739,
+          "stairs_pixels": 251515
+        },
+        "upstairs": {
+          "frames": 3,
+          "stairs_as_road": 0.0,
+          "stairs_recall": 0.9954357402263934,
+          "stairs_iou": 0.8114064994592367,
+          "stairs_pixels": 395683
+        }
+      }
+    },
+    "forward_speed": {
+      "median_ms": 11.702299991156906,
+      "p95_ms": 12.56693999748677
+    },
+    "down_over_up_stairs_iou": 0.7116752180025135,
+    "down_over_up_stairs_recall": 0.9188704184482386
+  },
+  "B": {
+    "step": 1000,
+    "threshold": 0.6,
+    "peak_training_allocated_bytes": 2684702720,
+    "edge_weight": 0.6,
+    "weights_sha256": "f3a3608a50f2676ccd39cabea39b99da1fe7e651ff00252eb84d552d9de72d58",
+    "frames": 128,
+    "scene_counts": {
+      "upstairs": 44,
+      "downstairs": 44,
+      "road": 40
+    },
+    "downstairs": {
+      "stairs_as_road": 0.03012585571769049,
+      "stairs_recall": 0.917015747573777,
+      "stairs_iou": 0.5337954290152772,
+      "stairs_pixels": 4180263
+    },
+    "upstairs": {
+      "stairs_as_road": 0.0012362475040223495,
+      "stairs_recall": 0.9834127881391534,
+      "stairs_iou": 0.7397312763642014,
+      "stairs_pixels": 5610527
+    },
+    "generic_stairs": {
+      "stairs_as_road": null,
+      "stairs_recall": null,
+      "stairs_iou": null,
+      "stairs_pixels": 0
+    },
+    "road_iou": 0.8939500569874902,
+    "no_stairs_frames": 40,
+    "no_stairs_false_positive_pixels": 0.0027914167719147033,
+    "no_stairs_false_alarm_frames": 0.1,
+    "by_stair": {
+      "building_landings": {
+        "downstairs": {
+          "frames": 16,
+          "stairs_as_road": 0.007028313661790093,
+          "stairs_recall": 0.9731320823708517,
+          "stairs_iou": 0.47706108288594007,
+          "stairs_pixels": 1422105
+        },
+        "upstairs": {
+          "frames": 16,
+          "stairs_as_road": 0.0024543590256589807,
+          "stairs_recall": 0.9817591156904917,
+          "stairs_iou": 0.6988573428530432,
+          "stairs_pixels": 1999300
+        }
+      },
+      "grass_brick_path": {
+        "downstairs": {
+          "frames": 4,
+          "stairs_as_road": 0.1963862559241706,
+          "stairs_recall": 0.5973238203173294,
+          "stairs_iou": 0.49980064440349575,
+          "stairs_pixels": 232944
+        },
+        "upstairs": {
+          "frames": 4,
+          "stairs_as_road": 0.0002770328018626035,
+          "stairs_recall": 0.9161975774365624,
+          "stairs_iou": 0.7862490199549812,
+          "stairs_pixels": 339310
+        }
+      },
+      "ornate_stone_complex": {
+        "downstairs": {
+          "frames": 21,
+          "stairs_as_road": 0.02982320878885024,
+          "stairs_recall": 0.9095363986174071,
+          "stairs_iou": 0.587874337756863,
+          "stairs_pixels": 2273699
+        },
+        "upstairs": {
+          "frames": 21,
+          "stairs_as_road": 0.0006720593665188576,
+          "stairs_recall": 0.990450012064387,
+          "stairs_iou": 0.7559005016311969,
+          "stairs_pixels": 2876234
+        }
+      },
+      "rough_stone_steps": {
+        "downstairs": {
+          "frames": 3,
+          "stairs_as_road": 0.009474584020833747,
+          "stairs_recall": 0.9634256406178557,
+          "stairs_iou": 0.5003561937446184,
+          "stairs_pixels": 251515
+        },
+        "upstairs": {
+          "frames": 3,
+          "stairs_as_road": 5.054551244304152e-06,
+          "stairs_recall": 0.9982536525450929,
+          "stairs_iou": 0.8127123125322777,
+          "stairs_pixels": 395683
+        }
+      }
+    },
+    "forward_speed": {
+      "median_ms": 11.588499997742474,
+      "p95_ms": 12.312960100825876
+    },
+    "down_over_up_stairs_iou": 0.7216072188253222,
+    "down_over_up_stairs_recall": 0.9324830413370817
+  },
+  "relative_downstairs_error_reduction": 0.21033622192402707,
+  "purpose": "beihang_ab",
+  "eval_device": "NVIDIA GeForce RTX 5090"
+}
