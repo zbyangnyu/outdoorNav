@@ -21,16 +21,18 @@
 未保存到 Git：图片、视频、数据集、PDF、ONNX、模型权重、Python 环境。日志和指标是历史记录，本次未重新训练或复测。
 本地早期 `finetune/ft_b0/model.safetensors` 不是最新 v5 SWA，不能作为 v5 交付权重。
 
-最新权重按历史记录在训练服务器：
-- `/root/autodl-tmp/seg/taskE/final/segformer-b0-lynx4cls-v5swa/`
-- `/root/autodl-tmp/seg/taskE/final/b0_taskE_v5swa_640x480.onnx`
-此次未连接该服务器核实，需另行取回，不能声称 pull 后即可推理。
-`tools/r.sh` 是历史服务器连接脚本，依赖本机 `~/.ssh/eai_seetacloud`；私钥没有进入仓库，也不会通过 Git 同步。
+## 权重处理（交接决定）
+
+在另一台电脑重新训练，不连接 AutoDL，也不取回旧训练权重。
+以 taskE 的数据处理、训练和评估代码为基础，下载公开的 SegFormer-B0 Cityscapes 预训练权重及所需数据，重新生成微调权重。
+历史报告、日志中的服务器地址与权重位置仅为实验来源，不是新环境的依赖。
+`tools/r.sh` 是历史连接脚本，新环境不需要使用，也不需要原机器的 SSH 私钥。
 
 ## 另一台电脑运行须知
 
 原脚本保留服务器绝对路径 `/root/autodl-tmp/seg`、`/root/autodl-tmp/hf`、`/root/autodl-tmp/ade`。
-不能直接在 Mac 上启动 CUDA 训练；先配置 GPU 环境、模型缓存、数据和路径。
+先检查新电脑 GPU、显存及 PyTorch 支持情况；原代码使用 CUDA/bfloat16，不能直接在 Mac 上原样训练。
+将硬编码的历史服务器路径改为新电脑的配置路径，再准备模型缓存与数据；不依赖原 AutoDL 目录。
 保留子目录结构，taskE 评估会导入根目录 compare.py、taskB 与 taskD 模块。
 依赖以脚本及 REPRO.md 为准：torch、transformers、numpy、opencv-python、remotezip、onnx、onnxruntime（GPU 环境可用 onnxruntime-gpu），画图另需 matplotlib；没有经过锁定的版本环境。
 原版 PIDNet 比较还依赖 `compare.py` 引用的 vendor/semantic_local_grid 和其权重，本归档不包含该外部源码；不是训练 taskE 的必需项。
